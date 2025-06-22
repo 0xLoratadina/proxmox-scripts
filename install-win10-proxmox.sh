@@ -58,7 +58,7 @@ qm create $VMID \
 
 # Paso 3: Añadir disco
 echo -e "\n💽 Paso 3/5: Configurando disco virtual de $DISK_SIZE..."
-qm set $VMID --scsi0 local-lvm:$DISK_SIZE > /dev/null
+qm set $VMID --scsi0 local-lvm:0,size=$DISK_SIZE > /dev/null
 
 # Paso 4: Configuración de periféricos y video
 echo -e "\n🎛️  Paso 4/5: Ajustando configuración de hardware..."
