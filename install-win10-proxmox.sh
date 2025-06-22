@@ -8,7 +8,7 @@ VMID=9000
 VM_NAME="Windows10-LTSC"
 MEMORY=4096
 CORES=2
-DISK_SIZE="64G"
+DISK_SIZE="200G"
 BRIDGE="vmbr0"
 
 ISO_DIR="/var/lib/vz/template/iso"
@@ -56,9 +56,9 @@ qm create $VMID \
   --agent enabled=1 \
   --net0 virtio,bridge=$BRIDGE > /dev/null
 
-# Paso 3: Añadir disco
-echo -e "\n💽 Paso 3/5: Configurando disco virtual de $DISK_SIZE..."
-qm set $VMID --scsi0 local-lvm:0,size=$DISK_SIZE > /dev/null
+# Paso 3: Crear disco virtual de 200G
+echo -e "\n💽 Paso 3/5: Creando disco virtual de $DISK_SIZE..."
+qm disk create $VMID scsi0 $DISK_SIZE --storage local-lvm > /dev/null
 
 # Paso 4: Configuración de periféricos y video
 echo -e "\n🎛️  Paso 4/5: Ajustando configuración de hardware..."
@@ -71,7 +71,7 @@ echo -e "\n📀 Paso 5/5: Montando ISOs (Windows + VirtIO)..."
 qm set $VMID --ide2 local:iso/Windows10.iso,media=cdrom > /dev/null
 qm set $VMID --ide3 local:iso/virtio-win.iso,media=cdrom > /dev/null
 
-# Arrancar
+# Arrancar la VM
 echo -e "\n🚀 Iniciando máquina virtual..."
 qm start $VMID > /dev/null
 
